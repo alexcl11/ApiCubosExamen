@@ -1,0 +1,6 @@
+@ApiCubosExamen_HostAddress = http://localhost:5024
+
+GET {{ApiCubosExamen_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
