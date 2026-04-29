@@ -21,6 +21,16 @@ string connectionString = sqlconnectionsecret.Value;
 
 builder.Services.AddDbContext<ContextCubos>(options => options.UseSqlServer(connectionString));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("PermitirTodo", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddTransient<RepositoryCubos>();
 
 KeyVaultSecret secretoAes = await clienteSecreto.GetSecretAsync("secret-token-key");
@@ -52,6 +62,7 @@ app.MapGet("/", context =>
     context.Response.Redirect("/scalar");
     return Task.CompletedTask;
 });
+app.UseCors("PermitirTodo");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthentication();
